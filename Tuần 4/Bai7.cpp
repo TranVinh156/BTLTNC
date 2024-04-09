@@ -1,46 +1,54 @@
-#include <iostream>
 #include <vector>
+#include <iostream>
+
 using namespace std;
 
-bool isSafe(int x, int y, vector<vector<char>>& rocks) {
-    return rocks[y][x] == 'E';
+void canEscape(string *map, int w, int Y, int x, bool &live, int h, vector<vector<bool>> &a)
+{
+    if (!live)
+    {
+        if (x < 0 || x == w || a[Y][x])
+            return;
+        a[Y][x] = true;
+        if (Y == h - 1)
+        {
+            live = true;
+            return;
+        }
+        else
+        {
+            if ((x <= w - 2) && (map[Y][x + 1] == 'E') && (map[Y + 1][x + 1] != 'R') && !live)
+            {
+                canEscape(map, w, Y + 1, x + 1, live, h, a);
+            }
+            if (x >= 1 && map[Y][x - 1] == 'E' && map[Y + 1][x - 1] != 'R' && !live)
+            {
+                canEscape(map, w, Y + 1, x - 1, live, h, a);
+            }
+            if (map[Y + 1][x] != 'R' && !live)
+            {
+                canEscape(map, w, Y + 1, x, live, h, a);
+            }
+        }
+    }
 }
 
-bool canEscape(int n, int m, int start, vector<vector<char>>& rocks) {
-    int x = start;
-    
-    for (int y = 1; y < n; ++y) {
-        if (x > 0 && isSafe(x - 1, y, rocks)) {
-            x--;
-        }
-        else if (x < m - 1 && isSafe(x + 1, y, rocks)) {
-            x++;
-        }
-        else {
-            return false;
-        }
+int main()
+{
+    int w, h;
+    cin >> w >> h;
+    string s[2000];
+    for (int i = 0; i < h; i++)
+    {
+        cin >> s[i];
     }
-    
-    return true;
-}
 
-int main() {
-    int W, H;
-    cin >> W >> H;
-    int start;
-    vector<vector<char>> rocks(H, vector<char>(W));
-    for (int i = 0; i < W; ++i) {
-        for (int j = 0; j < H; ++j) {
-            cin >> rocks[i][j];
-            if (rocks[i][j]=='Y') start = j;
-        }
-    }
-    
-    if (canEscape(H, W, start, rocks)) {
-        cout << "YES" << endl;
-    } else {
-        cout << "NO" << endl;
-    }
-    
+    int x = s[0].find('Y');
+
+    bool live = false;
+    vector<vector<bool>> a(h, vector<bool>(w, false));
+
+    canEscape(s, w, 0, x, live, h, a);
+    live ? cout << "YES" : cout << "NO";
     return 0;
 }
