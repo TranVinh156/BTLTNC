@@ -2,11 +2,11 @@
 #include <vector>
 using namespace std;
 
-bool isSafe(int x, int y, vector<vector<int>>& rocks) {
-    return rocks[y][x] == 0;
+bool isSafe(int x, int y, vector<vector<char>>& rocks) {
+    return rocks[y][x] == 'E';
 }
 
-bool canEscape(int n, int m, int start, vector<vector<int>>& rocks) {
+bool canEscape(int n, int m, int start, vector<vector<char>>& rocks) {
     int x = start;
     
     for (int y = 1; y < n; ++y) {
@@ -25,18 +25,18 @@ bool canEscape(int n, int m, int start, vector<vector<int>>& rocks) {
 }
 
 int main() {
-    int n, m, start;
-    cin >> n >> m;
-    cin >> start;
-    
-    vector<vector<int>> rocks(n, vector<int>(m));
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
+    int W, H;
+    cin >> W >> H;
+    int start;
+    vector<vector<char>> rocks(H, vector<char>(W));
+    for (int i = 0; i < W; ++i) {
+        for (int j = 0; j < H; ++j) {
             cin >> rocks[i][j];
+            if (rocks[i][j]=='Y') start = j;
         }
     }
     
-    if (canEscape(n, m, start, rocks)) {
+    if (canEscape(H, W, start, rocks)) {
         cout << "YES" << endl;
     } else {
         cout << "NO" << endl;

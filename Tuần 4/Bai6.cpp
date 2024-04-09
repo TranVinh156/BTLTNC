@@ -1,55 +1,40 @@
+
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <vector>
+
 using namespace std;
 
-int gcd(int a, int b) {
-    if (b == 0)
-        return a;
-    return gcd(b, a % b);
+int checkA(const vector<int>& a, int n, int k){
+    for (int i = 0; i < n; i++)
+        if (k % a[i])
+            return 0;
+    return 1;
 }
 
-int lcm(int a, int b) {
-    return (a * b) / gcd(a, b);
+int checkB(const vector<int>& b, int n, int k){
+    for (int i = 0; i < n; i++)
+        if (b[i] % k)
+            return 0;
+    return 1;
 }
 
-int findMiddleNumbers(const vector<int>& A, const vector<int>& B) {
-    int uscln = A[0];
-    for (int i = 1; i < A.size(); ++i) {
-        uscln = gcd(uscln, A[i]);
+int main(){
+    int n;
+    int m;
+    cin >> n >> m;
+    vector<int> a(n);
+    for(int a_i = 0;a_i < n;a_i++){
+        cin >> a[a_i];
     }
-    
-    int bscnn = B[0];
-    for (int i = 1; i < B.size(); ++i) {
-        bscnn = lcm(bscnn, B[i]);
+    vector<int> b(m);
+    for(int b_i = 0;b_i < m;b_i++){
+        cin >> b[b_i];
     }
-    
-    int count = 0;
-    for (int i = uscln; i <= bscnn; i += uscln) {
-        if (bscnn % i == 0) {
-            count++;
-        }
-    }
-    return count;
-}
-
-int main() {
-    int n, m;
-    cin >> n;
-    vector<int> A(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> A[i];
-    }
-
-    cin >> m;
-    vector<int> B(m);
-
-    for (int i = 0; i < m; ++i) {
-        cin >> B[i];
-    }
-    
-    int result = findMiddleNumbers(A, B);
-    cout << result << endl;
-    
+    int cnt = 0;
+    for (int i = 1; i <= 100; i++)
+    if (checkA(a, n, i) && checkB(b, m, i))
+        cnt++;
+    cout << cnt;
     return 0;
 }

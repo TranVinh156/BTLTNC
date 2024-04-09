@@ -1,31 +1,36 @@
-#include <iostream>
+#include <cmath>
+#include <cstdio>
 #include <vector>
-#include <unordered_set>
+#include <iostream>
+#include <algorithm>
 using namespace std;
 
-void findUniqueElement(const vector<int>& A, const vector<int>& B) {
-    unordered_set<int> setA(A.begin(), A.end());
-    for (int num : B) {
-        if (setA.find(num) == setA.end()) {
-            cout << num << endl;
-            return;
-        }
-    }
-}
 
 int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
     int n;
     cin >> n;
-
-    vector<int> A(n), B(n + 1);
-    for (int i = 0; i < n; ++i) {
+    vector <int> A(n);
+    vector <int> B(n+1);
+    for (int i=0; i<n; i++)
+    {
         cin >> A[i];
     }
-    for (int i = 0; i < n + 1; ++i) {
+    for (int i=0; i<n+1; i++)
+    {
         cin >> B[i];
     }
-
-    findUniqueElement(A, B);
-
+    sort(A.begin(), A.end());
+    sort(B.begin(), B.end());
+    int index = 0;
+    for (int i=0; i<n; i++)
+    {
+        if (A[i] == B[i])
+        {
+            index++;
+        }
+        else break;
+    }
+    cout << B[index] <<endl;
     return 0;
 }
